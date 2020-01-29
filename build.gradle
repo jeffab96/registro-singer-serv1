@@ -1,0 +1,48 @@
+
+
+plugins {
+      id 'java-library'
+    id "io.freefair.lombok" version "4.1.4"
+    id "it.gianluz.capsule"  version "1.0.3"
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+
+//JDBC
+compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.7.0'
+//DB
+compile group: 'org.postgresql', name: 'postgresql', version: '42.2.8'
+
+//Dependencias
+compile group: 'io.helidon', name: 'helidon-bom', version: '1.4.0', ext: 'pom'
+
+//Microprofile
+compile group: 'io.helidon.microprofile.bundles', name: 'helidon-microprofile', version: '1.4.0'
+
+//JSON
+compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.4.0-b180830.0359'
+compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.29.1'
+
+
+//xml
+compile group: 'org.glassfish.jersey.media', name: 'jersey-media-jaxb', version: '2.30'
+
+
+//CONSUL
+compile group: 'org.microprofile-ext.config-ext', name: 'configsource-consul', version: '1.0.9'
+compile group: 'com.ecwid.consul', name: 'consul-api', version: '1.4.4'
+}
+
+task copyLibs(type:Copy){
+from configurations.runtime
+into 'build/libs/libs'
+}
+
+task ejecutable( type:FatCapsule ) {
+	group = 'build'
+	applicationClass 'io.helidon.microprofile.server.Main'
+}
